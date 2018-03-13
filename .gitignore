@@ -1,0 +1,10 @@
+bin/
+obj/
+sv/
+
+*.ide
+
+*.ide-shm
+
+*.ide-wal
+*.lock
