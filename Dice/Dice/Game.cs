@@ -28,7 +28,7 @@ namespace Dice
         {
             Result = ThrowDice();
 
-            Console.WriteLine($"You  threw {_numberOfDices} dice, your result -  {Result}");
+            Console.WriteLine($"You threw {_numberOfDices} dice, your result -  {Result}");
 
             if (Result == 12)
             {
