@@ -5,33 +5,49 @@ namespace Dice
 {
     public class Player
     {
-        private int numberAttempts = 0;
+        public const int BiggestFigureOnDice = 6;
+
+        private int _numberAttempts = 0;
+        private int _numberOfDice;
+        private Game _game;
 
         public string Name { get; private set; }
 
-        public Player(string name, uint numberOfDices)
+        public Player(string name, uint numberOfDice)
         {
             Name = name;
 
-            Game game = new Game(numberOfDices);
+            _numberOfDice = (int)numberOfDice;
+            _game = new Game(numberOfDice);
+            _game.FellOutTwelve += ReactionToTheGame;
+        }
+        
+        public void ReactionToTheGame(object sender, EventArgs e)
+        {
+            Game game = sender as Game;
+            Console.WriteLine($"Your result is {game.Result}");
 
-            game.FellOutTwelve += () => Win();
-
-            while (true)
+            if (game.Result == BiggestFigureOnDice * _numberOfDice)
             {
-                numberAttempts++;
-                game.StartGame();
-                Thread.Sleep(300);
+                Console.WriteLine($" ");
+                Console.WriteLine($"{Name} - You win!!!");
+                Console.WriteLine($"Number of attempts is {_numberAttempts}");
+                Console.WriteLine($"Your result is {game.Result}");
+                _numberAttempts = 0;
+                Console.WriteLine($"Press any key...");
+                Console.WriteLine($" ");
+                Console.ReadKey();
             }
         }
 
-        public void Win()
+        public void StartGame()
         {
-            Console.WriteLine($"{Name} - You win!!!");
-            Console.WriteLine($"Number of attempts is {numberAttempts}");
-            numberAttempts = 0;
-            Console.WriteLine($"Press any key...");
-            Console.ReadKey();
+            while (true)
+            {
+                _numberAttempts++;
+                _game.StartGame();
+                Thread.Sleep(300);
+            }
         }
     }
 }

@@ -4,8 +4,10 @@
     {
         static void Main(string[] args)
         {
-            uint numberOfDices = 2;
-            Player player = new Player("John", numberOfDices);
+            uint numberOfDice = 1;
+            Player player = new Player("John", numberOfDice);
+           
+            player.StartGame();
         }
     }
 }
