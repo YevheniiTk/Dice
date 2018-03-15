@@ -4,46 +4,40 @@ namespace Dice
 {
     public class Game
     {
-        private readonly int _numberOfDices;
-        private Random r;
-        private int[] _dices;
-
-        public event Action FellOutTwelve;
+        private readonly int _numberOfDice;
+        private Random _randon;
+        private int[] _dice;
+        
+        public event EventHandler FellOutTwelve;
 
         public int Result { get; private set; }
        
-        public Game(uint numberOfDices)
+        public Game(uint numberOfDice)
         {
-            if (numberOfDices == 0 && numberOfDices < 6)
+            if (numberOfDice == 0 && numberOfDice < 6)
             {
-                throw new Exception("The number of dices must be greater than 0, but not more than 5");
+                throw new Exception("The number of dice must be greater than 0, but not more than 5");
             }
 
-            r = new Random();
-            _dices = new int[numberOfDices];
-            _numberOfDices = (int)numberOfDices;
+            _randon = new Random();
+            _dice = new int[numberOfDice];
+            _numberOfDice = (int)numberOfDice;
         }
 
         public void StartGame()
         {
             Result = ThrowDice();
-
-            Console.WriteLine($"You threw {_numberOfDices} dice, your result -  {Result}");
-
-            if (Result == 12)
-            {
-                FellOutTwelve?.Invoke();
-            }
+            FellOutTwelve?.Invoke(this, EventArgs.Empty);
         }
 
         private int ThrowDice()
         {
             int result = 0;
 
-            for (int i = 0; i < _dices.Length; i++)
+            for (int i = 0; i < _dice.Length; i++)
             {
-                _dices[i] = r.Next(1, 7);
-                result += _dices[i];
+                _dice[i] = _randon.Next(1, 7);
+                result += _dice[i];
             }
 
             return result;
